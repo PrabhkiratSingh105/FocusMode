@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FocusMode Aesthetic Timer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="gradient-orb orb-1"></div>
+    <div class="gradient-orb orb-2"></div>
+
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <span class="brand-icon">◐</span>
+          <div>
+            <h1>FocusMode</h1>
+            <p>Deep work companion</p>
+          </div>
+        </div>
+
+        <nav class="menu">
+          <button class="menu-btn active" data-panel="timer">Timer</button>
+          <button class="menu-btn" data-panel="analysis">Analysis</button>
+          <button class="menu-btn" data-panel="todo">Todo List</button>
+        </nav>
+
+        <section class="music-card">
+          <h3>Music Deck</h3>
+          <p>Upload tracks, rename, and play instantly.</p>
+          <label class="upload-btn">
+            Upload music files
+            <input id="musicUploader" type="file" accept="audio/*" multiple />
+          </label>
+          <div class="volume-wrap">
+            <span>Volume</span>
+            <input id="volumeSlider" type="range" min="0" max="100" value="65" />
+          </div>
+          <div id="nowPlaying" class="now-playing">No track selected</div>
+          <ul id="musicList" class="music-list"></ul>
+          <audio id="audioPlayer" controls preload="metadata"></audio>
+        </section>
+      </aside>
+
+      <main class="content">
+        <section class="panel active" id="timer-panel">
+          <div class="panel-head">
+            <h2>Aesthetic Timer</h2>
+            <button id="openSettings" class="ghost-btn">⚙ Settings</button>
+          </div>
+
+          <div class="mode-switcher">
+            <button class="mode-btn active" data-mode="pomodoro">Pomodoro</button>
+            <button class="mode-btn" data-mode="countdown">Count Down</button>
+          </div>
+
+          <div class="timer-stage">
+            <div class="glow-ring"></div>
+            <p id="modeLabel">Pomodoro Session</p>
+            <div id="timerDisplay" class="timer-display">25:00</div>
+            <div class="timer-actions">
+              <button id="startPauseBtn" class="primary-btn">Start</button>
+              <button id="resetBtn" class="ghost-btn">Reset</button>
+              <button id="completeBreakBtn" class="ghost-btn">Log Break</button>
+            </div>
+          </div>
+
+          <div class="stats-strip">
+            <article>
+              <span>Focus Sessions</span>
+              <strong id="focusSessions">0</strong>
+            </article>
+            <article>
+              <span>Total Focus</span>
+              <strong id="focusMinutes">0 min</strong>
+            </article>
+            <article>
+              <span>Current Streak</span>
+              <strong id="streakCount">0 days</strong>
+            </article>
+          </div>
+        </section>
+
+        <section class="panel" id="analysis-panel">
+          <h2>Focus Analysis</h2>
+          <div class="analysis-grid">
+            <article>
+              <span>Average Break (week)</span>
+              <strong id="avgBreak">0 min</strong>
+            </article>
+            <article>
+              <span>Average Focus (week)</span>
+              <strong id="avgFocus">0 min</strong>
+            </article>
+            <article>
+              <span>Trend</span>
+              <strong id="focusTrend">Collecting data</strong>
+            </article>
+            <article>
+              <span>Next Day Target</span>
+              <strong id="nextTarget">Start with 25 min</strong>
+            </article>
+          </div>
+          <div id="weeklyBars" class="weekly-bars"></div>
+        </section>
+
+        <section class="panel" id="todo-panel">
+          <h2>Todo Mission Control</h2>
+          <form id="todoForm" class="todo-form">
+            <input id="todoInput" type="text" placeholder="Add your daily task..." required />
+            <button type="submit" class="primary-btn">Add Task</button>
+          </form>
+
+          <div class="todoist-connect">
+            <h3>Connect Todoist</h3>
+            <p>Todoist → Settings → Integrations → Developer tab → copy API token.</p>
+            <div class="todoist-row">
+              <input id="todoistToken" type="password" placeholder="Paste Todoist API token" />
+              <button id="saveTokenBtn" class="ghost-btn" type="button">Save token</button>
+              <button id="syncTodoistBtn" class="ghost-btn" type="button">Sync tasks</button>
+            </div>
+            <small id="todoistStatus"></small>
+          </div>
+
+          <ul id="todoList" class="todo-list"></ul>
+        </section>
+      </main>
+    </div>
+
+    <dialog id="settingsDialog">
+      <form method="dialog" class="settings-form">
+        <h3>Timer Settings</h3>
+        <label>
+          Pomodoro Max Time (minutes)
+          <input id="pomodoroMinutes" type="number" min="1" max="180" />
+        </label>
+        <label>
+          Countdown Max Time (minutes)
+          <input id="countdownMinutes" type="number" min="1" max="240" />
+        </label>
+        <menu>
+          <button class="ghost-btn" value="cancel">Cancel</button>
+          <button id="saveSettingsBtn" class="primary-btn" value="default">Save</button>
+        </menu>
+      </form>
+    </dialog>
+
+    <script src="app.js"></script>
+  </body>
+</html>

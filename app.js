@@ -253,22 +253,31 @@ function bindMusic() {
 
   ui.musicUploader.addEventListener('change', async (event) => {
     const files = [...event.target.files];
+    let addedCount = 0;
+
     for (const file of files) {
-      if (file.size > 2 * 1024 * 1024) {
-        ui.nowPlaying.textContent = `Skipped ${file.name}: file too large for reliable local storage.`;
-        continue;
-      }
       const data = await fileToDataUrl(file);
-      state.music.push({
+      const track = {
         id: crypto.randomUUID(),
         name: file.name.replace(/\.[^/.]+$/, ''),
         data,
         duration: 0,
-      });
+      };
+
+      state.music.push(track);
+      const persisted = saveState();
+      if (!persisted) {
+        state.music = state.music.filter((item) => item.id !== track.id);
+        saveState();
+        ui.nowPlaying.textContent = `Couldn't save ${file.name}. localStorage is full.`;
+        continue;
+      }
+
+      addedCount += 1;
     }
 
-    if (!saveState()) {
-      ui.nowPlaying.textContent = 'Storage full. Remove some tracks and retry.';
+    if (addedCount > 0) {
+      ui.nowPlaying.textContent = `${addedCount} track(s) saved locally. They will stay after refresh.`;
     }
 
     renderMusic();

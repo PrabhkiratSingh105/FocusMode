@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FocusMode Premium</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="bg-layer bg-grid"></div>
+    <div class="bg-layer bg-gradient"></div>
+
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <span class="brand-icon">◉</span>
+          <div>
+            <h1>FocusMode</h1>
+            <p>premium focus studio</p>
+          </div>
+        </div>
+
+        <nav class="menu">
+          <button class="menu-btn active" data-panel="timer"><span>⏱</span> Focus</button>
+          <button class="menu-btn" data-panel="analysis"><span>📈</span> Insights</button>
+          <button class="menu-btn" data-panel="todo"><span>✅</span> Tasks</button>
+        </nav>
+
+        <section class="music-card">
+          <h3>🎵 Sound Deck</h3>
+          <label class="upload-btn">+ Add Tracks<input id="musicUploader" type="file" accept="audio/*" multiple /></label>
+          <div class="volume-wrap">
+            <span>🔊</span>
+            <input id="volumeSlider" type="range" min="0" max="100" value="65" />
+          </div>
+          <div id="nowPlaying" class="now-playing">No track selected</div>
+          <ul id="musicList" class="music-list"></ul>
+          <audio id="audioPlayer" controls preload="metadata"></audio>
+        </section>
+      </aside>
+
+      <main class="content">
+        <section class="panel active" id="timer-panel">
+          <div class="panel-head">
+            <h2>Focus Timer</h2>
+            <button id="openSettings" class="ghost-btn">⚙</button>
+          </div>
+          <div class="mode-switcher">
+            <button class="mode-btn active" data-mode="pomodoro">🍅 Pomodoro</button>
+            <button class="mode-btn" data-mode="countdown">⌛ Count Down</button>
+          </div>
+          <div class="timer-stage">
+            <div class="ring"></div>
+            <p id="modeLabel">Pomodoro Session</p>
+            <div id="timerDisplay" class="timer-display">25:00</div>
+            <div class="timer-actions">
+              <button id="startPauseBtn" class="primary-btn">▶ Start</button>
+              <button id="resetBtn" class="ghost-btn">↺</button>
+              <button id="completeBreakBtn" class="ghost-btn">☕</button>
+            </div>
+          </div>
+          <div class="stats-strip">
+            <article><span>Sessions</span><strong id="focusSessions">0</strong></article>
+            <article><span>Focus Time</span><strong id="focusMinutes">0 min</strong></article>
+            <article><span>Streak</span><strong id="streakCount">0 days</strong></article>
+          </div>
+        </section>
+
+        <section class="panel" id="analysis-panel">
+          <h2>Focus Insights</h2>
+          <div class="analysis-grid">
+            <article><span>Avg Break</span><strong id="avgBreak">0 min</strong></article>
+            <article><span>Avg Focus</span><strong id="avgFocus">0 min</strong></article>
+            <article><span>Trend</span><strong id="focusTrend">Collecting data</strong></article>
+            <article><span>Next Target</span><strong id="nextTarget">25 min</strong></article>
+          </div>
+          <div id="weeklyBars" class="weekly-bars"></div>
+        </section>
+
+        <section class="panel" id="todo-panel">
+          <h2>Task Hub</h2>
+          <form id="todoForm" class="todo-form">
+            <input id="todoInput" type="text" placeholder="Add a task" required />
+            <button type="submit" class="primary-btn">+ Add</button>
+          </form>
+          <div class="todoist-connect">
+            <h3>🔐 Todoist</h3>
+            <p>Copy token from Todoist → Settings → Integrations → Developer.</p>
+            <div class="todoist-row">
+              <input id="todoistToken" type="password" placeholder="API token" />
+              <button id="saveTokenBtn" class="ghost-btn" type="button">Save</button>
+              <button id="syncTodoistBtn" class="ghost-btn" type="button">Sync</button>
+            </div>
+            <small id="todoistStatus"></small>
+          </div>
+          <ul id="todoList" class="todo-list"></ul>
+        </section>
+      </main>
+    </div>
+
+    <dialog id="settingsDialog">
+      <form method="dialog" class="settings-form">
+        <h3>Timer Settings</h3>
+        <label>Pomodoro (min)<input id="pomodoroMinutes" type="number" min="1" max="180" /></label>
+        <label>Count Down (min)<input id="countdownMinutes" type="number" min="1" max="240" /></label>
+        <label>Background Theme<select id="themeSelect"><option value="aurora">Aurora</option><option value="midnight">Midnight</option><option value="nebula">Nebula</option></select></label>
+        <menu>
+          <button class="ghost-btn" value="cancel">Cancel</button>
+          <button id="saveSettingsBtn" class="primary-btn" value="default">Save</button>
+        </menu>
+      </form>
+    </dialog>
+
+    <script src="app.js"></script>
+  </body>
+</html>
